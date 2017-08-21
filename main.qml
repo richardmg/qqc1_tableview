@@ -22,6 +22,7 @@ Window {
         id: columnComponent
         CC1.TableViewColumn {
             width: 100
+            // ListElement will typically have many roles, but one should be used for the column header title
             role: "titleRole"
         }
     }
