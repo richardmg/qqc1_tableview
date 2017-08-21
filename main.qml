@@ -9,66 +9,35 @@ Window {
     height: 480
     visible: true
 
-//    ListView {
-//        anchors.fill: parent
-//        model: 100
-//        delegate: Rectangle {
-//            width: 100
-//            height: 50
-//            color: index % 2 ? "lightGray" : "lightBlue"
-//            Text {
-//                text: "index: " + index
-//            }
-//        }
-//    }
-
-    //    ObjectModel {
-    //        id: objectModel
-    //        Text { text: "one" }
-    //        Text { text: "two" }
-    //        Text { text: "three" }
-    //    }
-
-    //    ListView {
-    //        anchors.fill: parent
-    //        model: objectModel
-
-    //        visible: false
-    //    }
-
     ListModel {
         id: tableModel
         // ListElement is like RowData, with each property being a column in the row
-        ListElement {
-            titleRole: "title1"
-            nameRole: "name1"
+        Component.onCompleted: {
+            for (var i = 0; i < 1000; ++i)
+                tableModel.append({ titleRole: "title " + i })
         }
-        ListElement {
-            titleRole: "title2"
-            nameRole: "name2"
-        }
-        ListElement {
-            titleRole: "title3"
-            nameRole: "name3"
+    }
+
+    Component {
+        id: columnComponent
+        CC1.TableViewColumn {
+            width: 100
+            role: "titleRole"
         }
     }
 
     CC1.TableView {
+        id: tableView
         anchors.fill: parent
         model: tableModel
 
-        CC1.TableViewColumn {
-            title: "Title"
-            role: "titleRole"
-        }
-
-        CC1.TableViewColumn {
-            title: "Name"
-            role: "nameRole"
-        }
-
         itemDelegate: Text {
             text: styleData.value
+        }
+
+        Component.onCompleted: {
+            for (var i = 0; i < 100; ++i)
+                tableView.addColumn(columnComponent.createObject(tableView, { title: "Title: " + i }))
         }
     }
 }
