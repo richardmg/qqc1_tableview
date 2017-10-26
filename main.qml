@@ -9,21 +9,15 @@ Window {
     height: 480
     visible: true
 
+    property int columns: 20
+    property int rows: 1000
+
     ListModel {
         id: tableModel
         // ListElement is like RowData, with each property being a column in the row
         Component.onCompleted: {
-            for (var i = 0; i < 1000; ++i)
+            for (var i = 0; i < window.rows; ++i)
                 tableModel.append({ titleRole: "title " + i })
-        }
-    }
-
-    Component {
-        id: columnComponent
-        CC1.TableViewColumn {
-            width: 100
-            // ListElement will typically have many roles, but one should be used for the column header title
-            role: "titleRole"
         }
     }
 
@@ -37,8 +31,17 @@ Window {
         }
 
         Component.onCompleted: {
-            for (var i = 0; i < 100; ++i)
+            for (var i = 0; i < window.columns; ++i)
                 tableView.addColumn(columnComponent.createObject(tableView, { title: "Title: " + i }))
         }
     }
+
+    Component {
+        id: columnComponent
+        CC1.TableViewColumn {
+            width: 100
+            role: "titleRole"
+        }
+    }
+
 }
